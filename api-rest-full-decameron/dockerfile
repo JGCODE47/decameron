@@ -1,30 +1,38 @@
-# Usa la imagen oficial de PHP con FPM y extensiones para PostgreSQL
-FROM php:8.1-fpm
+# Usa la variante slim de Debian Bullseye para PHP 8.1 FPM
+FROM php:8.1-fpm-bullseye-slim
 
-# Instala dependencias del sistema y extensiones de PHP necesarias
+# Evita instalar recomendados y limpia caches de apt
 RUN apt-get update \
- && apt-get install -y libpq-dev git unzip zip \
- && docker-php-ext-install pdo_pgsql
+ && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    git \
+    unzip \
+    zip \
+ && docker-php-ext-install pdo_pgsql \
+ && rm -rf /var/lib/apt/lists/*
 
-# Instala Composer global
-RUN curl -sS https://getcomposer.org/installer | php \
- && mv composer.phar /usr/local/bin/composer
+# Instala Composer de forma segura
+ENV COMPOSER_HOME=/tmp
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+ && composer --version
 
-# Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia y descarga las dependencias de Composer
-COPY composer.json composer.lock ./
-RUN composer install --optimize-autoloader --no-dev
+# Copia solo los archivos de dependencias y haz la instalación antes de copiar el resto
+COPY api-rest-full-decameron/composer.json api-rest-full-decameron/composer.lock ./
+RUN composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
 
-# Copia el resto del código
-COPY . .
+# Copia el resto del proyecto
+COPY api-rest-full-decameron/ ./
 
-# Genera la key de Laravel
-RUN php artisan key:generate
+# Genera la key de la app y limpia caches de Laravel
+RUN php artisan key:generate \
+ && php artisan config:cache \
+ && php artisan route:cache \
+ && php artisan view:cache
 
-# Expón el puerto que usará PHP-FPM
+# Expón el puerto de PHP-FPM
 EXPOSE 9000
 
-# Comando por defecto: levanta PHP-FPM
+# Comando por defecto
 CMD ["php-fpm"]
