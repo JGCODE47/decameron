@@ -1,0 +1,17 @@
+# decameron.com/netlify.toml
+
+[build]
+  base    = "."                    # tu Next.js está en la raíz de decameron.com
+  command = "npm ci && npm run build"
+  publish = ".next"                # carpeta de salida de Next.js
+  # functions = "netlify/functions" # sólo si usas Lambdas
+
+[context.production.environment]
+  NODE_ENV = "production"
+  NEXT_PUBLIC_API_URL = "https://tu-api.onrender.com"  # reemplaza con la URL de Render
+
+# Redirects necesarios para Next.js (si usas rewrites de SSR)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
