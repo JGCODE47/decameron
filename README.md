@@ -107,8 +107,8 @@ export const habitacionSchema = yup.object({
 1. Inicia el proyecto con:
 
    ```bash
-   npx create-next-app@latest frontend
-   cd frontend
+   npx create-next-app@latest decameron.com
+   cd decameron.com
    ```
 2. Instala dependencias:
 
