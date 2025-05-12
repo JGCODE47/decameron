@@ -19,33 +19,45 @@ Desarrollaremos un **frontend desacoplado** en **Next.js** para consumir el API 
 * **Formularios**: React Hook Form + Yup para validaciones
 
 ## 3. Estructura de Carpetas
+Proyecto Decameron
 
 ```
-/frontend
-├── public              # Archivos estáticos
-│   └── favicon.ico     # Icono de la app
+decameron.com
+├── public
+│   └── favicon.ico
 ├── src
-│   ├── app             # Rutas y layouts (Next.js App Router)
-│   │   ├── page.tsx    # Página principal (dashboard)
-│   │   ├── layout.tsx  # Layout global
-│   │   └── hoteles
-│   │       ├── page.tsx    # Lista de hoteles
-│   │       ├── nuevo      # Carpeta para crear hotel
-│   │       │   └── page.tsx
-│   │       └── [id]
-│   │           └── page.tsx # Detalle y edición de hotel + habitaciones
-│   └── components       # Componentes reutilizables
-│       ├── HotelForm.tsx
-│       ├── HabitacionForm.tsx
-│       ├── HotelCard.tsx
-│       └── Layout.tsx
+│   ├── app
+│   │   ├── page.tsx           # Dashboard principal
+│   │   ├── layout.tsx         # Layout global
+│   │   ├── hoteles
+│   │   │   ├── page.tsx       # Lista de hoteles
+│   │   │   ├── nuevo
+│   │   │   │   └── page.tsx   # Formulario crear hotel
+│   │   │   ├── [id]
+│   │   │   │   └── page.tsx   # Detalle/editar hotel + listado habitaciones
+│   │   │   └── habitaciones   # Módulo habitaciones anidado en hoteles
+│   │   │       ├── index.tsx        # Lista de asignaciones para el hotel
+│   │   │       ├── nuevo
+│   │   │       │   └── page.tsx     # Formulario crear asignaciones de habitación
+│   │   │       └── [asigId]
+│   │   │           └── page.tsx     # Detalle/editar asignación individual
+│   │   └── habitaciones             # Módulo global de habitaciones si es necesario
+│   │       ├── page.tsx             # Lista global de asignaciones
+│   │       └── nuevo
+│   │           └── page.tsx         # Formulario crear asignación independiente
+│   ├── components
+│   │   ├── HotelCard.tsx
+│   │   ├── HotelForm.tsx
+│   │   ├── HabitacionForm.tsx
+│   │   └── Layout.tsx
 ├── styles
-│   └── globals.css     # Estilos globales con Tailwind
-├── .eslintrc.json      # Configuración ESLint
-├── tailwind.config.js  # Configuración Tailwind CSS
-├── next.config.js      # Configuración Next.js
-└── tsconfig.json       # Configuración TypeScript
+│   └── globals.css
+├── .eslintrc.json
+├── tailwind.config.js
+├── next.config.js
+└── tsconfig.json
 ```
+
 
 ## 4. Páginas y Componentes Páginas y Componentes
 
