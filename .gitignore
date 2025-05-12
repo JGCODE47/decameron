@@ -1,30 +1,48 @@
-/vendor/
-node_modules/
-npm-debug.log
-yarn-error.log
-
-# Laravel 4 specific
-bootstrap/compiled.php
-app/storage/
-
-# Laravel 5 & Lumen specific
-public/storage
-public/hot
-
-# Laravel 5 & Lumen specific with changed public path
-public_html/storage
-public_html/hot
-
-storage/*.key
+# ⛔ Archivos y carpetas generales que no se deben subir
 .env
+.env.* 
+*.log
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# ⛔ Laravel
+/vendor
+/node_modules
+/storage/*.key
+/storage/*.log
+/storage/debugbar
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*
+/public/storage
+
+# ⛔ Laravel archivos extra
 Homestead.yaml
 Homestead.json
-/.vagrant
-.phpunit.result.cache
+phpunit.xml
 
-/public/build
-/storage/pail
-.env.backup
-.env.production
-.phpactor.json
-auth.json
+# ⛔ Next.js (React)
+.next
+out
+node_modules/
+.vercel
+*.local
+
+# ⛔ Archivos del sistema operativo
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# ⛔ Archivos de editor
+.vscode/
+.idea/
+*.code-workspace
+*.sublime*
+
+# ⛔ Archivos del build
+build
+dist
+coverage
