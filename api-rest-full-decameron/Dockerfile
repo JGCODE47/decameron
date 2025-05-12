@@ -1,35 +1,31 @@
-# api-rest-full-decameron/Dockerfile
+FROM php:8.2-apache
 
-# 1. Imagen base slim de PHP con FPM
-FROM php:8.1-fpm-bullseye-slim
+# Instala dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
+    libpq-dev libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip
 
-# 2. Instala dependencias del sistema y extensiones PHP para PostgreSQL
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-    libpq-dev git unzip zip \
- && docker-php-ext-install pdo_pgsql \
- && rm -rf /var/lib/apt/lists/*
+# Instala Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# 3. Instala Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
+# Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# 4. Copia Composer files e instala deps antes de copiar todo el código
-COPY composer.json composer.lock ./
-RUN composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
-
-# 5. Copia el resto del proyecto Laravel
+# Copia el código de la aplicación
 COPY . .
 
-# 6. Genera clave y cachea configuración, rutas y vistas
-RUN php artisan key:generate \
- && php artisan config:cache \
- && php artisan route:cache \
- && php artisan view:cache
+# Instala dependencias de PHP
+RUN composer install --no-dev --optimize-autoloader
 
-# 7. Expón el puerto de PHP-FPM
-EXPOSE 9000
+# Da permisos a los directorios necesarios
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# 8. Arranque por defecto
-CMD ["php-fpm"]
+# Habilita mod_rewrite para Apache
+RUN a2enmod rewrite
+
+# Expone el puerto 80
+EXPOSE 80
+
+# Comando por defecto
+CMD ["apache2-foreground"]

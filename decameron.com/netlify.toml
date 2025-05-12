@@ -2,7 +2,7 @@
 
 [build]
   base    = "."                    # tu Next.js está en la raíz de decameron.com
-  command = "npm ci && npm run build"
+  command = "npm run build"
   publish = ".next"                # carpeta de salida de Next.js
   # functions = "netlify/functions" # sólo si usas Lambdas
 
