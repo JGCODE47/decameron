@@ -38,14 +38,11 @@ const FormCrearHotel = () => {
 
 
 
-// Función para manejar el envío del formulario
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   try {
-    // Llamamos al servicio para crear el hotel
     await crearHotel(hotelData);
     setMensaje('Hotel creado exitosamente');
-    // Limpiar los campos del formulario
     setHotelData({
       nombre: '',
       direccion: '',
@@ -55,15 +52,19 @@ const handleSubmit = async (e: React.FormEvent) => {
     });
   } catch (error) {
     if (error instanceof AxiosError) {
-      // Si el error tiene una respuesta (por ejemplo, 422 Unprocessable Content)
       if (error.response) {
-        console.error('Error detalle:', error.response.data);
-        // Aquí puedes personalizar el mensaje en función de los detalles del error
-        if (error.response.status === 422) {
-          // Ejemplo: Si el error es 422, se muestra el mensaje específico
-          setMensaje(error.response.data.errors.error[0]);
+        const responseData = error.response.data;
+
+        // 🔍 Verifica si hay errores de validación
+        if (error.response.status === 422 && responseData.errors) {
+          // Convertimos los errores a un solo string legible
+          const mensajes = Object.values(responseData.errors)
+            .flat()
+            .join('\n');
+
+          setMensaje(mensajes); // o puedes mostrar uno por uno si lo prefieres
         } else {
-          setMensaje('Hubo un error al crear el hotel: ' + error.response.data.message);
+          setMensaje('Hubo un error al crear el hotel: ' + responseData.message);
         }
       } else {
         setMensaje('Error desconocido');
@@ -76,8 +77,9 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
 
+
 return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray px-4">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Crear un Nuevo Hotel</h2>
   
@@ -132,7 +134,7 @@ return (
               value={hotelData.nit}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 text-black rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
   
@@ -146,7 +148,7 @@ return (
               value={hotelData.numero_habitaciones}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 text-black rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
   
