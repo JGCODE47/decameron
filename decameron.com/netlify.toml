@@ -1,10 +1,9 @@
 # decameron.com/netlify.toml
 
 [build]
-  base    = "."                    # tu Next.js está en la raíz de decameron.com
-  command = "npm run build"
-  publish = ".next"                # carpeta de salida de Next.js
-  # functions = "netlify/functions" # sólo si usas Lambdas
+  base    = "."
+  command = "next export"
+  publish = "out"  # Esta es la carpeta de salida para sitios exportados
 
 [context.production.environment]
   NODE_ENV = "production"
