@@ -32,6 +32,16 @@ class HotelController extends Controller
             'ciudad' => 'required|string|max:255',
             'nit' => 'required|string|max:255',
             'numero_habitaciones' => 'required|integer|min:1',
+        ], [
+            'nombre.required' => 'El nombre del hotel es obligatorio.',
+            'direccion.required' => 'La dirección del hotel es obligatoria.',
+            'ciudad.required' => 'La ciudad del hotel es obligatoria.',
+            'nit.required' => 'El NIT del hotel es obligatorio.',
+
+            // 🔧 Aquí agregas los mensajes para TODAS las reglas de numero_habitaciones:
+            'numero_habitaciones.required' => 'Debes ingresar el número de habitaciones.',
+            'numero_habitaciones.integer' => 'El número de habitaciones debe ser un número entero.',
+            'numero_habitaciones.min' => 'El número de habitaciones debe ser mínimo 1.',
         ]);
 
         // Validar que no exista un hotel con el mismo nombre y NIT
@@ -68,6 +78,12 @@ class HotelController extends Controller
             'ciudad' => 'required|string|max:255',
             'nit' => 'required|string|max:255',
             'numero_habitaciones' => 'required|integer|min:1',
+        ],[
+            'nombre.required' => 'El nombre del hotel es obligatorio.',
+            'direccion.required' => 'La dirección del hotel es obligatoria.',
+            'ciudad.required' => 'La ciudad del hotel es obligatoria.',
+            'nit.required' => 'El NIT del hotel es obligatorio.',
+            'numero_habitaciones.required' => 'El número de habitaciones debe ser mayor a 1.',
         ]);
 
         // Validar que no exista otro hotel con el mismo nombre y NIT, excluyendo el hotel actual

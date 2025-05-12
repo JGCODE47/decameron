@@ -1,4 +1,3 @@
-// src/app/hoteles/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -23,15 +22,22 @@ export default function HotelesPage() {
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl mb-4">Hoteles</h1>
-      <ul>
-        {hoteles.map(h => (
-          <li key={h.id}>
-            {h.nombre} — {h.ciudad} - {h.direccion} — {h.nit}
-          </li>
+    <div className="min-h-screen bg-black p-8">
+      <h1 className="text-3xl font-bold mb-6 text-center">Hoteles</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {hoteles.map((h) => (
+          <div
+            key={h.id}
+            onClick={() => window.location.href = `/habitaciones/${h.id}`}
+            className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+          >
+            <h2 className="text-xl font-semibold text-black mb-2">{h.nombre}</h2>
+            <p className="text-gray-700">📍 {h.ciudad}, {h.direccion}</p>
+            <p className="text-gray-600">NIT: {h.nit}</p>
+            <p className="text-gray-600">🛏️ Habitaciones: {h.numero_habitaciones}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
