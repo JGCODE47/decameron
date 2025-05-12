@@ -1,0 +1,30 @@
+# Usa la imagen oficial de PHP con FPM y extensiones para PostgreSQL
+FROM php:8.1-fpm
+
+# Instala dependencias del sistema y extensiones de PHP necesarias
+RUN apt-get update \
+ && apt-get install -y libpq-dev git unzip zip \
+ && docker-php-ext-install pdo_pgsql
+
+# Instala Composer global
+RUN curl -sS https://getcomposer.org/installer | php \
+ && mv composer.phar /usr/local/bin/composer
+
+# Establece el directorio de trabajo
+WORKDIR /var/www/html
+
+# Copia y descarga las dependencias de Composer
+COPY composer.json composer.lock ./
+RUN composer install --optimize-autoloader --no-dev
+
+# Copia el resto del código
+COPY . .
+
+# Genera la key de Laravel
+RUN php artisan key:generate
+
+# Expón el puerto que usará PHP-FPM
+EXPOSE 9000
+
+# Comando por defecto: levanta PHP-FPM
+CMD ["php-fpm"]
