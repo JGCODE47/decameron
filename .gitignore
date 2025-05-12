@@ -7,28 +7,32 @@ Thumbs.db
 npm-debug.log*
 
 # ⛔ Laravel
-/vendor
-/node_modules
-/storage/*.key
-/storage/*.log
-/storage/debugbar
-/storage/framework/cache/data/*
-/storage/framework/sessions/*
-/storage/framework/views/*
-/bootstrap/cache/*
-/public/storage
+api-rest-full-decameron/vendor/
+api-rest-full-decameron/node_modules/
+api-rest-full-decameron/storage/*.key
+api-rest-full-decameron/storage/*.log
+api-rest-full-decameron/storage/debugbar/
+api-rest-full-decameron/storage/framework/cache/data/*
+api-rest-full-decameron/storage/framework/sessions/*
+api-rest-full-decameron/storage/framework/views/*
+api-rest-full-decameron/bootstrap/cache/*
+api-rest-full-decameron/public/storage
 
-# ⛔ Laravel archivos extra
-Homestead.yaml
-Homestead.json
-phpunit.xml
+# Laravel archivos extra
+api-rest-full-decameron/Homestead.yaml
+api-rest-full-decameron/Homestead.json
+api-rest-full-decameron/phpunit.xml
 
 # ⛔ Next.js (React)
-.next
-out
-node_modules/
-.vercel
-*.local
+decameron.com/.next/
+decameron.com/out/
+decameron.com/node_modules/
+decameron.com/.vercel/
+decameron.com/*.local
+
+# ⚠️ Netlify y Dockerfile deben incluirse, no ignorar:
+# !decameron.com/netlify.toml
+# !api-rest-full-decameron/Dockerfile
 
 # ⛔ Archivos del sistema operativo
 *.swp
@@ -42,7 +46,7 @@ node_modules/
 *.code-workspace
 *.sublime*
 
-# ⛔ Archivos del build
-build
-dist
-coverage
+# ⛔ Archivos de build
+build/
+dist/
+coverage/
