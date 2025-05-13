@@ -1,31 +1,25 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
-# Instala dependencias del sistema
+# Instala extensiones necesarias
 RUN apt-get update && apt-get install -y \
-    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
-    libpq-dev libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip
+    libpq-dev unzip git curl libpng-dev libonig-dev libxml2-dev zip \
+    && docker-php-ext-install pdo_pgsql
 
 # Instala Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establece el directorio de trabajo
+# Copia todos los archivos
+COPY . /var/www/html
+
 WORKDIR /var/www/html
 
-# Copia el código de la aplicación
-COPY . .
+# Permisos para Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Instala dependencias de PHP
-RUN composer install --no-dev --optimize-autoloader
-
-# Da permisos a los directorios necesarios
-RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Habilita mod_rewrite para Apache
+# Habilitar mod_rewrite
 RUN a2enmod rewrite
 
-# Expone el puerto 80
-EXPOSE 80
+# Puerto para Render
+EXPOSE 10000
 
-# Comando por defecto
-CMD ["apache2-foreground"]
+CMD php artisan serve --host=0.0.0.0 --port=10000
