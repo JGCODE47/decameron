@@ -28,9 +28,9 @@ services:
     image: postgres:latest
     container_name: laravel-db
     environment:
-      POSTGRES_DB: laravel
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: decameron_nz8u
+      POSTGRES_USER: decameron_nz8u_user
+      POSTGRES_PASSWORD: syRcZwelzA6wULBBzNsAoYPyvkuIRv1j
     volumes:
       - laravel_db_data:/var/lib/postgresql/data
     networks:
