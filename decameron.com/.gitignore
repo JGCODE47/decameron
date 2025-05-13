@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -39,3 +40,62 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+=======
+# ───────────────────────────────
+# 🚫 Archivos de producción y compilación
+# ───────────────────────────────
+.next/                  # Archivos de build de Next.js
+out/                    # Archivos generados por `next export`
+build/                  # Archivos de build en otros casos
+coverage/               # Archivos de cobertura de pruebas
+
+# ───────────────────────────────
+# 📦 Dependencias y cachés
+# ───────────────────────────────
+node_modules/           # Módulos de Node.js
+.pnp/                   # Archivos de Yarn Plug'n'Play
+.pnpm/                  # Cachés de pnpm
+.pnpm-debug.log*        # Archivos de log de pnpm
+.yarn/*                 # Cachés de Yarn
+!.yarn/patches          # Parches de Yarn (si los usas)
+!.yarn/plugins          # Plugins de Yarn (si los usas)
+!.yarn/releases         # Releases de Yarn (si los usas)
+!.yarn/versions         # Versiones de Yarn (si las usas)
+
+# Evita accidentalmente subir dependencias de Next.js
+**/node_modules/
+**/.next/
+**/@next/**/next-swc*.node
+
+# ───────────────────────────────
+# 🔐 Variables de entorno
+# ───────────────────────────────
+.env                    # Archivos de entorno locales
+.env.*                  # Archivos de entorno de entorno (p. ej., .env.local)
+next-env.d.ts           # Archivos generados por Next.js
+*.tsbuildinfo           # Archivos temporales de TypeScript
+
+# ───────────────────────────────
+# ⚙️ Archivos de configuración local
+# ───────────────────────────────
+.vercel/                # Archivos generados por Vercel (no necesarios en Netlify)
+.netlify/               # Archivos específicos de Netlify (a veces contienen configuraciones locales)
+.vscode/                # Configuración de Visual Studio Code
+.idea/                  # Configuración de JetBrains IDEs
+*.code-workspace       # Archivos de configuración de workspace de VSCode
+
+# ───────────────────────────────
+# 🐞 Logs de depuración
+# ───────────────────────────────
+npm-debug.log*          # Archivos de log de npm
+yarn-debug.log*         # Archivos de log de Yarn
+yarn-error.log*         # Archivos de log de errores de Yarn
+
+# ───────────────────────────────
+# 🗑️ Archivos temporales del sistema/editor
+# ───────────────────────────────
+.DS_Store               # Archivos de sistema de macOS
+Thumbs.db               # Archivos de miniaturas de Windows
+*.swo                   # Archivos temporales de vim
+*.swp                   # Archiv*
+>>>>>>> api-restfull-laravel
