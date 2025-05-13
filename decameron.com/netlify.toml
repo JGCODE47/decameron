@@ -3,7 +3,7 @@
 [build]
   base    = "."
   command = "next export"
-  publish = "out"  # Esta es la carpeta de salida para sitios exportados
+  publish = "dist"  # Esta es la carpeta de salida para sitios exportados
 
 [context.production.environment]
   NODE_ENV = "production"
