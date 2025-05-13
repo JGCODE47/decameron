@@ -1,6 +1,8 @@
 [build]
   base = "decameron.com"
-  publish = "out"
+  publish = "decameron.com/.next"
   command = "next build"
 
 
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
