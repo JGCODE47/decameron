@@ -3,9 +3,10 @@ FROM composer:2.7.2 AS vendor
 
 WORKDIR /app
 
-# Copia los archivos necesarios para instalar dependencias
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+
 
 # Etapa 2: Aplicación PHP con PHP 8.3
 FROM php:8.3-cli
@@ -24,8 +25,7 @@ WORKDIR /var/www/html
 # Copia el resto del código de la app
 COPY . .
 
-# Copia la carpeta vendor desde la etapa de Composer
 COPY --from=vendor /app/vendor ./vendor
 
-# Ajusta permisos (opcional según tu entorno)
-RUN chown -R www-data:www-data storage bootstrap/cache
+# Ejecutar los scripts ahora que tienes todo el código
+RUN php artisan package:discover --ansi
