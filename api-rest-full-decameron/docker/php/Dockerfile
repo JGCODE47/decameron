@@ -30,5 +30,3 @@ COPY --from=vendor /app/vendor ./vendor
 # Ejecutar los scripts ahora que tienes todo el código
 RUN php artisan package:discover --ansi
 
-# Al final del Dockerfile
-CMD php artisan migrate --force && php-fpm
