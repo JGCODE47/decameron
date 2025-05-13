@@ -1,34 +1,48 @@
-version: '3.8'
 services:
-  web:
+  # Servicio para PHP-FPM
+  php:
     build:
       context: .
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
+      dockerfile: docker/php/Dockerfile
+    container_name: laravel-php
     volumes:
-      - ./api-rest-full-decameron:/var/www/html/api-rest-full-decameron
-    environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html/api-rest-full-decameron/public
-      - DB_CONNECTION=pgsql
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_DATABASE=decameron
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=secret
+      - .:/var/www/html
+    networks:
+      - laravel-network
     depends_on:
       - db
 
+  # Servicio para Nginx
+  nginx:
+    image: nginx:latest
+    container_name: laravel-nginx
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    networks:
+      - laravel-network
+    depends_on:
+      - php
+
+  # Servicio para base de datos (por ejemplo, PostgreSQL)
   db:
     image: postgres:latest
+    container_name: laravel-db
     environment:
-      - POSTGRES_DB=decameron
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=secret
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: laravel
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - laravel_db_data:/var/lib/postgresql/data
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    driver: bridge
 
 volumes:
-  pgdata:
+  laravel_db_data:
+    driver: local
