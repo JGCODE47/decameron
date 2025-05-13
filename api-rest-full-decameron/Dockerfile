@@ -23,7 +23,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html/api-rest-full-decameron/storage /var/www/html/api-rest-full-decameron/bootstrap/cache
 
 # Configura Nginx
-COPY ./nginx/default.conf /etc/nginx/sites-available/default
+COPY ./default.conf /etc/nginx/sites-available/default
 
 # Expone el puerto 80
 EXPOSE 80
