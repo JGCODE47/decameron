@@ -10,6 +10,10 @@ services:
       - laravel-network
     depends_on:
       - db
+    command: >
+      sh -c "until nc -z db 5432; do sleep 1; done &&
+             php artisan migrate --force &&
+             php-fpm"
 
   nginx:
     image: nginx:latest
