@@ -1,24 +1,31 @@
-FROM php:8.3-fpm
+FROM composer:latest AS vendor
 
-# Instala extensiones necesarias
+WORKDIR /app
+
+# Copia solo los archivos necesarios para instalar dependencias
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+
+# --------------------------------------------
+
+FROM php:8.2-fpm
+
+# Instala extensiones necesarias (ajusta según tus necesidades)
 RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev zip git curl unzip libpq-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_pgsql pdo_mysql gd
+    zip unzip libpq-dev git \
+    && docker-php-ext-install pdo pdo_pgsql
 
-# Instala Composer
+# Copia Composer desde la primera etapa
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Define el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia todo el proyecto Laravel al contenedor
+# Copia el resto del código
 COPY . .
 
-# Establece permisos necesarios
+# Copia la carpeta vendor desde la etapa de Composer
+COPY --from=vendor /app/vendor ./vendor
+
+# Ajusta permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expone el puerto 9000 para FPM
-EXPOSE 9000
-
-# Comando por defecto
-CMD ["php-fpm"]
