@@ -1,19 +1,6 @@
-# decameron.com/netlify.toml
-
 [build]
-  base    = "."
-  command = "next export"
-  publish = "dist"  # Esta es la carpeta de salida para sitios exportados
+  command = "npm run build"
+  publish = ".next"
 
-[context.production.environment]
-  NODE_ENV = "production"
-  NEXT_PUBLIC_API_URL = "https://tu-api.onrender.com"  # reemplaza con la URL de Render
-
-# Redirects necesarios para Next.js (si usas rewrites de SSR)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  
 [[plugins]]
- package = "@netlify/plugin-nextjs"
+  package = "@netlify/plugin-nextjs"
