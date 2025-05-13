@@ -1,31 +1,31 @@
-FROM composer:latest AS vendor
+# Etapa 1: Composer con PHP 8.3
+FROM composer:2.7.2 AS vendor
 
 WORKDIR /app
 
-# Copia solo los archivos necesarios para instalar dependencias
+# Copia los archivos necesarios para instalar dependencias
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --optimize-autoloader
 
-# --------------------------------------------
+# Etapa 2: Aplicación PHP con PHP 8.3
+FROM php:8.3-cli
 
-FROM php:8.2-fpm
-
-# Instala extensiones necesarias (ajusta según tus necesidades)
+# Instala extensiones necesarias
 RUN apt-get update && apt-get install -y \
     zip unzip libpq-dev git \
     && docker-php-ext-install pdo pdo_pgsql
 
-# Copia Composer desde la primera etapa
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Copia Composer desde la imagen anterior
+COPY --from=vendor /usr/bin/composer /usr/bin/composer
 
 # Define el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia el resto del código
+# Copia el resto del código de la app
 COPY . .
 
 # Copia la carpeta vendor desde la etapa de Composer
 COPY --from=vendor /app/vendor ./vendor
 
-# Ajusta permisos
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Ajusta permisos (opcional según tu entorno)
+RUN chown -R www-data:www-data storage bootstrap/cache
