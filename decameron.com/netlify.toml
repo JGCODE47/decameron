@@ -4,5 +4,3 @@
   command = "next build"
 
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
